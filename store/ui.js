@@ -12,12 +12,14 @@ module.exports = function (state, emitter) {
       state.ui.moved = false
     } else if (ev.type === 'mouseup' && !state.ui.moved) {
       emitter.emit('add-brick', {
+        color: state.ui.color,
         size: [4,1,2],
         offset: [data[0],data[1],data[2]]
       })
       emitter.emit('frame')
     } else if (ev.type === 'mousemove') {
       emitter.emit('hover-brick', {
+        color: state.ui.color,
         size: [4,1,2],
         offset: [data[0],data[1],data[2]]
       })
