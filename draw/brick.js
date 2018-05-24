@@ -12,8 +12,11 @@ function Brick (regl) {
       void main () {
         vec3 N = normalize(cross(dFdx(vpos),dFdy(vpos)));
         vec3 L0 = normalize(vec3(2,8,3));
-        float d = max(0.4,dot(N,L0));
-        gl_FragColor = vec4(vcolor*d,alpha);
+        vec3 L1 = normalize(vec3(-4,2,-1));
+        vec3 C0 = vec3(0.8,0.8,0.5);
+        vec3 C1 = vec3(0.3,0.4,0.7);
+        vec3 L = max(vec3(0.2),max(dot(N,L0)*C0,dot(N,L1)*C1));
+        gl_FragColor = vec4(pow(vcolor*L,vec3(1.0/2.0)),alpha);
       }
     `,
     vert: `

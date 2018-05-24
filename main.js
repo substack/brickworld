@@ -13,6 +13,7 @@ app.use(function (state, emitter) {
   window.addEventListener('mousemove', onmouse)
   window.addEventListener('mousedown', onmouse)
   window.addEventListener('mouseup', onmouse)
+  window.addEventListener('wheel', onmouse)
   state.mouse = { previous: null, current: null }
   function onmouse (ev) {
     if (ev.target !== state.canvas) return

@@ -13,15 +13,21 @@ module.exports = function (state, emit) {
       }
       .buttons {
         position: absolute;
-        top: 0px;
+        top: 4px;
         z-index: 10;
       }
-      .buttons button.color {
-        height: 1.5em;
+      .buttons button {
+        background-color: #808080;
+        color: white;
+        width: 2em;
+        height: 2em;
+        vertical-align: top;
+        margin-right: 8px;
+        border: 1px solid white;
       }
     </style>
     <div class="buttons">
-      <button>rotate</button>
+      <button onclick=${rotate}>\u21b7</button>
       <button style="background-color: red" class="color"
         onclick=${setColor('red')}> </button>
       <button style="background-color: yellow" class="color"
@@ -36,4 +42,5 @@ module.exports = function (state, emit) {
   function setColor (color) {
     return function () { emit('set-color', color) }
   }
+  function rotate () { emit('rotate-brick') }
 }

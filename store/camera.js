@@ -25,11 +25,16 @@ module.exports = function (state, emitter) {
       state.camera.eye, state.camera.center, state.camera.up)
   }
   emitter.on('mouse', function (cur, prev) {
-    if (!prev || !(cur.buttons & 1)) return
-    var dx = cur.clientX - prev.clientX
-    var dy = cur.clientY - prev.clientY
-    state.camera.theta += dx * 0.01
-    state.camera.phi -= dy * 0.01
-    emitter.emit('frame')
+    if (cur.type === 'wheel') {
+      state.camera.distance = Math.max(1,Math.min(100,
+        state.camera.distance + cur.deltaY/10))
+      emitter.emit('frame')
+    } else if (prev && (cur.buttons & 1)) {
+      var dx = cur.clientX - prev.clientX
+      var dy = cur.clientY - prev.clientY
+      state.camera.theta += dx * 0.01
+      state.camera.phi -= dy * 0.01
+      emitter.emit('frame')
+    }
   })
 }
