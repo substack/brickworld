@@ -1,5 +1,4 @@
 var app = require('choo')()
-var html = require('choo/html')
 var regl = require('regl')
 
 app.use(function (state, emitter) {
@@ -16,6 +15,7 @@ app.use(function (state, emitter) {
   window.addEventListener('mouseup', onmouse)
   state.mouse = { previous: null, current: null }
   function onmouse (ev) {
+    if (ev.target !== state.canvas) return
     state.mouse.current = ev
     emitter.emit('mouse', state.mouse.current, state.mouse.previous)
     state.mouse.previous = ev
@@ -35,7 +35,7 @@ app.use(function (state, emitter) {
   function frame () {
     state.drawing = false
     state.regl.poll()
-    state.regl.clear({ color: [1,1,1,1], depth: true })
+    state.regl.clear({ color: [0,0,0,1], depth: true })
     state.uniformFn(function () {
       for (var i = 0; i < state.draws.length; i++) {
         var d = state.draws[i]
@@ -95,19 +95,6 @@ app.use(function (state, emitter) {
   })
 })
 
-app.route('*', function (state, emit) {
-  return html`<body>
-    <style>
-      canvas {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        bottom: 0px;
-        right: 0px;
-      }
-    </style>
-    ${state.canvas}
-  </body>`
-})
+app.route('*', require('./view/main.js'))
 
 app.mount(document.body)

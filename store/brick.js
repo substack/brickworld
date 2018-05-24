@@ -1,11 +1,18 @@
 module.exports = function (state, emitter) {
   state.brickMesh = { positions: [], cells: [] }
+  state.hoverBrickMesh = { positions: [], cells: [] }
   var base = {
     size: [20,1/3,20],
     offset: [0,-2/3,0]
   }
   createBrick(state.brickMesh, base)
   state.bricks = [ base ]
+
+  emitter.on('hover-brick', function (opts) {
+    state.hoverBrickMesh.positions = []
+    state.hoverBrickMesh.cells = []
+    if (opts) createBrick(state.hoverBrickMesh, opts)
+  })
 
   emitter.on('add-brick', function (opts) {
     createBrick(state.brickMesh, opts)
@@ -28,9 +35,9 @@ function createBrick (mesh, opts) {
     [-1*size[0]+offset[0]*2,+1*size[1]+offset[1]*2+1,+1*size[2]+offset[2]*2]
   )
   mesh.cells.push(
-    [k+0,k+1,k+2],[k+0,k+2,k+3],[k+4,k+5,k+6],[k+4,k+6,k+7],
-    [k+0,k+1,k+4],[k+1,k+5,k+4],[k+1,k+2,k+5],[k+2,k+6,k+5],
-    [k+2,k+3,k+6],[k+3,k+7,k+6],[k+3,k+0,k+7],[k+0,k+7,k+4]
+    [k+0,k+1,k+2],[k+0,k+2,k+3],[k+6,k+5,k+4],[k+7,k+6,k+4],
+    [k+4,k+1,k+0],[k+4,k+5,k+1],[k+5,k+2,k+1],[k+5,k+6,k+2],
+    [k+6,k+3,k+2],[k+6,k+7,k+3],[k+7,k+0,k+3],[k+0,k+7,k+4]
   )
   var n = 12
   for (var x = 0; x < size[0]; x++) {
