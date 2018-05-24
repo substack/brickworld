@@ -24,6 +24,10 @@ module.exports = function (state, emitter) {
     var x = state.ui.brick[0], z = state.ui.brick[2]
     state.ui.brick[0] = z
     state.ui.brick[2] = x
+    if (state.hoverBrick) {
+      state.hoverBrick.size = state.ui.brick.slice()
+      emitter.emit('hover-brick', state.hoverBrick)
+    }
     emitter.emit('render')
     emitter.emit('frame')
   })
