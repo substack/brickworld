@@ -1,13 +1,12 @@
 var html = require('choo/html')
-var brickSizes = [
-  [4,1,2],
-  [3,1,2],
-  [2,1,2],
-  [4,1,1],
-  [3,1,1],
-  [2,1,1],
-  [1,1,1]
-]
+var brickSizes = [[4,1,2],[3,1,2],[2,1,2],[4,1,1],[3,1,1],[2,1,1],[1,1,1]]
+var fg = {
+  red: 'dark',
+  yellow: 'dark',
+  lime: 'dark',
+  blue: 'light',
+  purple: 'light'
+}
 
 module.exports = function (state, emit) {
   return html`<body>
@@ -37,24 +36,35 @@ module.exports = function (state, emit) {
         color: #808080;
         border-color: #808080;
       }
+      .buttons button.color.light {
+        color: white;
+      }
+      .buttons button.color.dark {
+        color: black;
+      }
+      .buttons select {
+        height: 2em;
+      }
     </style>
     <div class="buttons">
-      <button onclick=${rotate}>
+      <button onclick=${rotate} alt="rotate (key: R)" title="rotate (key: R)">
         ${state.ui.brick[0] > state.ui.brick[2] ? '\u21b7' : '\u21b6'}
       </button>
       <button onclick=${toggleRemove}
+        alt="toggle remove mode ${state.ui.remove ? 'off' : 'on'} (key: d)"
+        title="toggle remove mode ${state.ui.remove ? 'off' : 'on'} (key: d)"
         class="toggle ${state.ui.remove ? 'active' : ''}">X</button>
-      <button style="background-color: red" class="color"
-        onclick=${setColor('red')}> </button>
-      <button style="background-color: yellow" class="color"
-        onclick=${setColor('yellow')}> </button>
-      <button style="background-color: lime" class="color"
-        onclick=${setColor('lime')}> </button>
-      <button style="background-color: blue" class="color"
-        onclick=${setColor('blue')}> </button>
-      <select onchange=${selectBrick} selected=${state.ui.brick.join(',')}>
+      <button onclick=${clear} alt="clear" title="clear">\u2205</button>
+      ${state.colors.map(function (color,i) {
+        return html`<button style="background-color: ${color}"
+          class="color ${fg[color]}" alt="${color}" title="${color}"
+          onclick=${setColor(color)}>${i}</button>`
+      })}
+      <select onchange=${selectBrick}>
         ${brickSizes.map(function (size) {
-          return html`<option>${size.join(',')}</option>`
+          var selected = state.ui.brick.join(' ') === size.join(' ')
+          return html`<option ${selected ? 'selected' : ''}>
+            ${size.join(' ')}</option>`
         })}
       </select>
     </div>
@@ -66,6 +76,7 @@ module.exports = function (state, emit) {
   function rotate () { emit('rotate-brick') }
   function toggleRemove () { emit('toggle-remove') }
   function selectBrick () {
-    emit('select-brick', this.value.split(',').map(Number))
+    emit('select-brick', this.value.split(' ').map(Number))
   }
+  function clear () { emit('clear') }
 }

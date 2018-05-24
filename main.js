@@ -14,6 +14,10 @@ app.use(function (state, emitter) {
   window.addEventListener('mousedown', onmouse)
   window.addEventListener('mouseup', onmouse)
   window.addEventListener('wheel', onmouse)
+  window.addEventListener('keydown', function (ev) {
+    if (/^(input|textarea)$/.test(ev.target.tagName)) return
+    emitter.emit('keydown', ev)
+  })
   state.mouse = { previous: null, current: null }
   function onmouse (ev) {
     if (ev.target !== state.canvas) return

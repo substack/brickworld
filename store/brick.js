@@ -3,32 +3,39 @@ var colors = {
   yellow: [1,1,0],
   lime: [0,1,0],
   blue: [0,0,1],
+  purple: [0.5,0,1],
   gray: [0.5,0.5,0.5]
 }
 
 module.exports = function (state, emitter) {
-  state.brickMesh = {
-    positions: [],
-    cells: [],
-    colors: [],
-    ids: [],
-    depth: true
+  state.colors = ['red','yellow','lime','blue','purple']
+  state.brickMesh = {}
+  state.hoverBrickMesh = {}
+  state.hoverBrick = null
+  onclear()
+  emitter.on('clear', onclear)
+
+  function onclear () {
+    state.brickMesh.positions = []
+    state.brickMesh.cells = []
+    state.brickMesh.colors = []
+    state.brickMesh.ids = []
+    state.brickMesh.depth = true
+    state.hoverBrickMesh.positions = []
+    state.hoverBrickMesh.cells = []
+    state.hoverBrickMesh.colors = []
+    state.hoverBrickMesh.ids = []
+    state.hoverBrickMesh.depth = true
+    var base = {
+      size: [20,1/3,20],
+      offset: [0,-2/3,0],
+      color: [0.1,0.5,0.1],
+      id: 0
+    }
+    createBrick(state.brickMesh, base)
+    state.bricks = [ base ]
+    emitter.emit('frame')
   }
-  state.hoverBrickMesh = {
-    positions: [],
-    cells: [],
-    colors: [],
-    ids: [],
-    depth: true
-  }
-  var base = {
-    size: [20,1/3,20],
-    offset: [0,-2/3,0],
-    color: [0.1,0.5,0.1],
-    id: 0
-  }
-  createBrick(state.brickMesh, base)
-  state.bricks = [ base ]
 
   emitter.on('hover-brick', function (opts) {
     state.hoverBrickMesh.positions = []
@@ -36,6 +43,7 @@ module.exports = function (state, emitter) {
     state.hoverBrickMesh.cells = []
     state.hoverBrickMesh.ids = []
     state.hoverBrickMesh.depth = !state.ui.remove
+    state.hoverBrick = opts
     if (opts) {
       opts.id = state.bricks.length
       createBrick(state.hoverBrickMesh, opts)
