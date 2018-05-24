@@ -23,10 +23,13 @@ function Brick (regl) {
       precision highp float;
       uniform mat4 projection, view;
       varying vec3 vpos, vcolor;
+      varying float vid;
       attribute vec3 position, color;
+      attribute float id;
       void main () {
         vpos = position;
         vcolor = color;
+        vid = id;
         gl_Position = projection * view * vec4(position,1);
       }
     `,
@@ -34,6 +37,7 @@ function Brick (regl) {
     attributes: {
       position: regl.prop('positions'),
       color: regl.prop('colors'),
+      id: regl.prop('ids')
     },
     elements: regl.prop('cells')
   }
@@ -41,7 +45,10 @@ function Brick (regl) {
   this._drawAlpha = regl(Object.assign({}, drawOpts, {
     uniforms: { alpha: 0.8 },
     cull: { enable: true, face: 'back' },
-    depth: { mask: false },
+    depth: {
+      enable: function (context, props) { return !!props.depth },
+      mask: false
+    },
     blend: {
       enable: true,
       func: { src: 'src alpha', dst: 'one minus src alpha' }
@@ -51,9 +58,10 @@ function Brick (regl) {
     frag: `
       precision highp float;
       varying vec3 vpos;
+      varying float vid;
       void main () {
         vec3 coord = floor(vpos*0.5);
-        gl_FragColor = vec4(coord,1);
+        gl_FragColor = vec4(coord,vid);
       }
     `
   }))

@@ -25,9 +25,18 @@ module.exports = function (state, emit) {
         margin-right: 8px;
         border: 1px solid white;
       }
+      .buttons button.toggle.active {
+        background-color: #ff80a0;
+        color: #808080;
+        border-color: #808080;
+      }
     </style>
     <div class="buttons">
-      <button onclick=${rotate}>\u21b7</button>
+      <button onclick=${rotate}>
+        ${state.ui.brick[0] > state.ui.brick[2] ? '\u21b7' : '\u21b6'}
+      </button>
+      <button onclick=${toggleRemove}
+        class="toggle ${state.ui.remove ? 'active' : ''}">X</button>
       <button style="background-color: red" class="color"
         onclick=${setColor('red')}> </button>
       <button style="background-color: yellow" class="color"
@@ -43,4 +52,5 @@ module.exports = function (state, emit) {
     return function () { emit('set-color', color) }
   }
   function rotate () { emit('rotate-brick') }
+  function toggleRemove () { emit('toggle-remove') }
 }
