@@ -76,7 +76,7 @@ module.exports = function (state, emit) {
   function rotate () { emit('rotate-brick') }
   function toggleRemove () { emit('toggle-remove') }
   function selectBrick () {
-    this.defocus()
+    if (this.blur) this.blur()
     emit('select-brick', this.value.split(' ').map(Number))
   }
   function clear () { emit('clear') }
