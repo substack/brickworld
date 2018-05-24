@@ -51,7 +51,7 @@ function Brick (regl) {
     },
     blend: {
       enable: true,
-      func: { src: 'src alpha', dst: 'one minus src alpha' }
+      func: { src: 'src alpha', dst: 'src alpha' }
     }
   }))
   this._pick = regl(Object.assign({}, drawOpts, {
