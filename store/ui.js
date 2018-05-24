@@ -5,6 +5,10 @@ module.exports = function (state, emitter) {
     brick: [4,1,2],
     remove: false
   }
+  emitter.on('select-brick', function (size) {
+    state.ui.brick = size
+    emitter.emit('render')
+  })
   emitter.on('set-color', function (color) {
     state.ui.color = color
     state.ui.remove = false

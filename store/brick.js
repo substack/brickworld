@@ -64,7 +64,9 @@ module.exports = function (state, emitter) {
 
 function createBrick (mesh, opts) {
   var size = opts.size
-  var offset = opts.offset
+  var offset = [opts.offset[0],opts.offset[1],opts.offset[2]]
+  offset[0] += size[0]%2*0.5
+  offset[2] += size[2]%2*0.5
   var id = opts.id
   var k = mesh.positions.length
   var color = typeof opts.color === 'string' ? colors[opts.color] : opts.color
@@ -99,7 +101,7 @@ function createBrick (mesh, opts) {
         mesh.positions.push([px,size[1]+offset[1]*2+1,pz])
         mesh.colors.push(color, color)
         mesh.ids.push(id, id)
-        mesh.cells.push([k,k+i*2,k+(i+1)%n*2])
+        mesh.cells.push([k+(i+1)%n*2,k+i*2,k])
         mesh.cells.push([k+i*2,k+(i+1)%n*2,k+i*2+1])
         mesh.cells.push([k+i*2+1,k+(i+1)%n*2,k+(i+1)%n*2+1])
       }

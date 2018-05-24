@@ -1,4 +1,13 @@
 var html = require('choo/html')
+var brickSizes = [
+  [4,1,2],
+  [3,1,2],
+  [2,1,2],
+  [4,1,1],
+  [3,1,1],
+  [2,1,1],
+  [1,1,1]
+]
 
 module.exports = function (state, emit) {
   return html`<body>
@@ -43,6 +52,11 @@ module.exports = function (state, emit) {
         onclick=${setColor('lime')}> </button>
       <button style="background-color: blue" class="color"
         onclick=${setColor('blue')}> </button>
+      <select onchange=${selectBrick} selected=${state.ui.brick.join(',')}>
+        ${brickSizes.map(function (size) {
+          return html`<option>${size.join(',')}</option>`
+        })}
+      </select>
     </div>
     ${state.canvas}
   </body>`
@@ -51,4 +65,7 @@ module.exports = function (state, emit) {
   }
   function rotate () { emit('rotate-brick') }
   function toggleRemove () { emit('toggle-remove') }
+  function selectBrick () {
+    emit('select-brick', this.value.split(',').map(Number))
+  }
 }
