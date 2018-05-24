@@ -36,7 +36,7 @@ app.use(function (state, emitter) {
   function frame () {
     state.drawing = false
     state.regl.poll()
-    state.regl.clear({ color: [0,0,0,1], depth: true })
+    state.regl.clear({ color: [0.9,1,1,1], depth: true })
     state.uniformFn(function () {
       for (var i = 0; i < state.draws.length; i++) {
         var d = state.draws[i]
@@ -66,7 +66,7 @@ app.use(function (state, emitter) {
     state.pick.fb.resize(state.width, state.height)
     state.pick.usefb(function () {
       state.pick.fb.use(function () {
-        state.regl.clear({ color: [0,0,0,0], depth: true })
+        state.regl.clear({ color: [0,0,0,-1], depth: true })
         state.uniformFn(function () {
           for (var i = 0; i < state.draws.length; i++) {
             var d = state.draws[i]

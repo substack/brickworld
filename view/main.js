@@ -17,13 +17,11 @@ module.exports = function (state, emit) {
         z-index: 10;
       }
       .buttons button {
-        background-color: #808080;
-        color: white;
         width: 2em;
         height: 2em;
         vertical-align: top;
         margin-right: 8px;
-        border: 1px solid white;
+        border: 1px solid #404040;
       }
       .buttons button.toggle.active {
         background-color: #ff80a0;
