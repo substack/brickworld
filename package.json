@@ -7,7 +7,8 @@
     "regl": "^1.3.5"
   },
   "scripts": {
-    "start": "budo main.js"
+    "start": "budo main.js",
+    "build": "browserify main.js | indexhtmlify > brickworld.html"
   },
   "browserify": {
     "transform": [
@@ -15,6 +16,8 @@
     ]
   },
   "devDependencies": {
-    "budo": "^11.2.2"
+    "browserify": "^16.2.2",
+    "budo": "^11.2.2",
+    "indexhtmlify": "^1.3.1"
   }
 }
