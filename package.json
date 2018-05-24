@@ -3,12 +3,18 @@
     "choo": "^6.11.0-preview1",
     "gl-mat4": "^1.2.0",
     "gl-vec3": "^1.1.3",
-    "glsl-matrix-texture": "^1.0.3",
     "glslify": "^6.1.1",
-    "regl": "^1.3.5",
-    "regl-camera": "^2.1.1"
+    "regl": "^1.3.5"
+  },
+  "scripts": {
+    "start": "budo main.js"
   },
   "browserify": {
-    "transform": [ "glslify" ]
+    "transform": [
+      "glslify"
+    ]
+  },
+  "devDependencies": {
+    "budo": "^11.2.2"
   }
 }
