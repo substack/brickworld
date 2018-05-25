@@ -33,9 +33,9 @@ module.exports = function (state, emitter) {
   })
   emitter.on('keydown', function (ev) {
     var m
-    if (ev.code === 'KeyR') emitter.emit('rotate-brick')
-    else if (ev.code === 'KeyD') emitter.emit('toggle-remove')
-    else if (m = /^Digit(\d+)$/.exec(ev.code)) {
+    if (ev.key === 'r') emitter.emit('rotate-brick')
+    else if (ev.key === 'd') emitter.emit('toggle-remove')
+    else if (m = /^(\d+)$/.exec(ev.key)) {
       if (state.colors[m[1]]) {
         emitter.emit('set-color', state.colors[m[1]])
         emitter.emit('frame')
