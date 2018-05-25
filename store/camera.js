@@ -33,8 +33,14 @@ module.exports = function (state, emitter) {
       var dx = cur.clientX - prev.clientX
       var dy = cur.clientY - prev.clientY
       state.camera.theta += dx * 0.01
-      state.camera.phi -= dy * 0.01
+      state.camera.phi = clamp(
+        0.001,
+        +Math.PI-0.001,
+        state.camera.phi - dy * 0.01
+      )
       emitter.emit('frame')
     }
   })
 }
+
+function clamp (a, b, x) { return Math.max(a,Math.min(b,x)) }
